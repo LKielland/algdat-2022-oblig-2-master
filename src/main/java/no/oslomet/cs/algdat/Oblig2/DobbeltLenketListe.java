@@ -75,7 +75,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks, false);
+
+        return finnNode(indeks);
     }
 
     @Override
@@ -120,6 +122,27 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public Iterator<T> iterator(int indeks) {
         throw new UnsupportedOperationException();
     }
+
+    public Node<T> finnNode(int indeks){
+        Node<T> denne = hode;
+
+        if (indeks < antall/2) {
+            int teller = 0;
+            while(indeks > teller) {
+                denne = denne.neste;
+                teller++;
+            }
+            return denne;
+        } else {
+            int teller = antall;
+            while(indeks < teller) {
+                denne = denne.forrige;
+                teller--;
+            }
+            return denne;
+        }
+    }
+
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
         private Node<T> denne;
