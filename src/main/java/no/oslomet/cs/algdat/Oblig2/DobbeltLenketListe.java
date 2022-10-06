@@ -162,6 +162,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
             return denne;
         } else {
+            denne = hale;
             int teller = antall;
             while(indeks < teller) {
                 denne = denne.forrige;
