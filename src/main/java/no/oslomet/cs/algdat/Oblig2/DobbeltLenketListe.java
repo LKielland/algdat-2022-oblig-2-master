@@ -103,8 +103,38 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        // TODO: Her kommer det straks kode, sliter fortsatt litt med p.neste, og p.forrige og q.neste og q.forrige
-        throw new UnsupportedOperationException();
+        Objects.requireNonNull(verdi, "Ikke tillatt med null-verdier!");    // godtar ikke null-verdier
+        indeksKontroll(indeks, true);                                        // se Liste interface, true = antall er lovlig;
+        if(antall == 0 && indeks == 0) {                                            // hvis antall er 0 og indeks er 0
+            hode = hale = new Node<>(verdi, null, null);                // da blir hode lik hale lik den aller første noden
+            antall++;                                                               // øker antall
+            endringer++;                                                            // øker endringer
+        } else if (antall > 0 && indeks == 0) {                                     // hvis antall er større enn 0 og indeks er 0, da skal verdi inn foran hode og bli nytt hode
+            Node<T> p = hode;                                                       // lagrer hode i en p variabel
+            hode = new Node<> (verdi, null, p);                               // gjør hode lik verdi som peker til forrige som er null, og neste som er p
+            p.forrige = hode;                                                       // gjør slik at p sin forrige peker på hode
+            antall++;                                                               // øker antall
+            endringer++;                                                            // øker endringer
+        } else if (indeks == antall) {                                              // hvis indeks er lik antall skal verdien inn bakerst
+            hale.neste = new Node<>(verdi);                                         // hvis antallet er større enn 0 lager vi neste node etter hale
+            hale.neste.forrige = hale;                                              // setter forrige-pekeren til siste node til noden hale peker på
+            hale = hale.neste;                                                      // setter hale til å peke på siste node
+            antall++;                                                               // øker antall
+            endringer++;                                                            // øker endringer
+        } else {                                                                    // ellers befinner indeks seg et sted midt inne i lista
+            Node<T> p = hode;                                                       // justerer lista fra hode
+            for(int i = 1; i < indeks; i++) {                                       // for løkke løper gjennom fra hodet
+                p = p.neste;                                                        // p er lik p sin neste node opp til indeks - 1, da er p.neste hvor verdi skal inn
+            }
+            Node<T> q = p.neste;                                                    // lagrer noden p.neste i q
+            p.neste = new Node<>(verdi);                                            // lager en node på p sin neste, fordi det er indeks som er input
+            p.neste.forrige = p;                                                    // setter peker den nye noden til p sin forrige
+            p = p.neste;                                                            // gjør p lik p sin neste
+            p.neste = q;                                                            // setter p sin neste lik q
+            q.forrige = p;                                                          // setter q sin forrige lik p
+            antall++;                                                               // øker antall
+            endringer++;                                                            // øker endringer
+        }
     }
 
     @Override
