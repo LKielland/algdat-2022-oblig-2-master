@@ -4,9 +4,7 @@ package no.oslomet.cs.algdat.Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -103,7 +101,38 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new UnsupportedOperationException();
+        Objects.requireNonNull(verdi, "Ikke tillatt med null-verdier!");    // godtar ikke null-verdier
+        indeksKontroll(indeks, true);                                        // se Liste interface, true = antall er lovlig;
+        if(antall == 0 && indeks == 0) {                                            // hvis antall er 0 og indeks er 0
+            hode = hale = new Node<>(verdi, null, null);                // da blir hode lik hale lik den aller første noden
+            antall++;                                                               // øker antall
+            endringer++;                                                            // øker endringer
+        } else if (antall > 0 && indeks == 0) {                                     // hvis antall er større enn 0 og indeks er 0, da skal verdi inn foran hode og bli nytt hode
+            Node<T> p = hode;                                                       // lagrer hode i en p variabel
+            hode = new Node<> (verdi, null, p);                               // gjør hode lik verdi som peker til forrige som er null, og neste som er p
+            p.forrige = hode;                                                       // gjør slik at p sin forrige peker på hode
+            antall++;                                                               // øker antall
+            endringer++;                                                            // øker endringer
+        } else if (indeks == antall) {                                              // hvis indeks er lik antall skal verdien inn bakerst
+            hale.neste = new Node<>(verdi);                                         // hvis antallet er større enn 0 lager vi neste node etter hale
+            hale.neste.forrige = hale;                                              // setter forrige-pekeren til siste node til noden hale peker på
+            hale = hale.neste;                                                      // setter hale til å peke på siste node
+            antall++;                                                               // øker antall
+            endringer++;                                                            // øker endringer
+        } else {                                                                    // ellers befinner indeks seg et sted midt inne i lista
+            Node<T> p = hode;                                                       // justerer lista fra hode
+            for(int i = 1; i < indeks; i++) {                                       // for løkke løper gjennom fra hodet
+                p = p.neste;                                                        // p er lik p sin neste node opp til indeks - 1, da er p.neste hvor verdi skal inn
+            }
+            Node<T> q = p.neste;                                                    // lagrer noden p.neste i q
+            p.neste = new Node<>(verdi);                                            // lager en node på p sin neste, fordi det er indeks som er input
+            p.neste.forrige = p;                                                    // setter peker den nye noden til p sin forrige
+            p = p.neste;                                                            // gjør p lik p sin neste
+            p.neste = q;                                                            // setter p sin neste lik q
+            q.forrige = p;                                                          // setter q sin forrige lik p
+            antall++;                                                               // øker antall
+            endringer++;                                                            // øker endringer
+        }
     }
 
     @Override
@@ -113,8 +142,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        indeksKontroll(indeks , false);
-        return finnNode(indeks).verdi;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -124,28 +152,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        indeksKontroll(indeks , true);
-        Objects.requireNonNull(nyverdi, "Ikke tillatt med null-verider!");
-
-        Node<T> denne = hode;
-        if(indeks < antall/2){
-            for(int i = 1; i < indeks; i++) {
-                denne = denne.neste;
-            }
-            T temp = denne.neste.verdi;
-            denne.neste.verdi = nyverdi;
-            endringer++;
-            return temp;
-        } else {
-            denne = hale;
-            for(int i = antall; i > indeks;i--) {
-                denne = denne.forrige;
-            }
-            T temp = denne.forrige.verdi;
-            denne.forrige.verdi = nyverdi;
-            endringer++;
-            return temp;
-        }
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -199,49 +206,39 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+    public Iterator<T> iterator() {                                                    // klassisk iterator
+        return new DobbeltLenketListeIterator();
     }
 
-    public Iterator<T> iterator(int indeks) {
-        throw new UnsupportedOperationException();
+    public Iterator<T> iterator(int indeks) {                                          // iterator med indeks input
+        indeksKontroll(indeks, false);
+        return new DobbeltLenketListeIterator(indeks);
     }
 
-    public Node<T> finnNode(int indeks){
-        Node<T> denne = hode;
-
-        if (indeks < antall/2) {
-            int teller = 0;
-            while(indeks > teller) {
-                denne = denne.neste;
-                teller++;
-            }
-            return denne;
-        }  else {
-            denne = hale;
-            int teller = antall -1;
-            while(indeks < teller) {
-                denne = denne.forrige;
-                teller--;
-            }
-            return denne;
-        }
-    }
-
-
-    private class DobbeltLenketListeIterator implements Iterator<T> {
+    private class DobbeltLenketListeIterator implements Iterator<T> {                   // intern klasse dobbeltLenkeListeIterator som implementerer interfacet Iterator
         private Node<T> denne;
         private boolean fjernOK;
         private int iteratorendringer;
 
         private DobbeltLenketListeIterator() {
-            denne = hode;     // p starter på den første i listen
-            fjernOK = false;  // blir sann når next() kalles
-            iteratorendringer = endringer;  // teller endringer
+            denne = hode;                                                               // p starter på den første i listen
+            fjernOK = false;                                                            // blir sann når next() kalles
+            iteratorendringer = endringer;                                              // teller endringer
         }
 
         private DobbeltLenketListeIterator(int indeks) {
-            throw new UnsupportedOperationException();
+            if (indeks == 0) {                                                          // hvis indeks = 0
+                denne = hode;                                                           // er denne lik hode
+            }
+            else {                                                                      // ellers så...
+                Node<T> p = hode;                                                       // lager en p variabel for å traversere lenketLista
+                for(int i = 1; i < indeks; i++) {                                       // for løkke løper gjennom fra hodet
+                    p = p.neste;                                                        // p er lik p sin neste node opp til indeks - 1, da skal denne være lik p.neste
+                }
+                denne = p.neste;                                                        // gjør denne om til p.neste, som er indeks
+                fjernOK = false;                                                        // blir sann når next() kalles
+                iteratorendringer = endringer;                                          // teller endringer
+            }
         }
 
         @Override
@@ -251,7 +248,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next() {
-            throw new UnsupportedOperationException();
+            if(iteratorendringer != endringer) {                                        // hvis iteratorendringer er ulik endringer
+                throw new ConcurrentModificationException("Listen er endret!");         // kaster unntak
+            }
+            if(!hasNext()) {                                                            // hvis hasNext er false
+                throw new NoSuchElementException("Ingen verdier!");                     // kaster unntak
+            }
+            fjernOK = true;                                                             // fjernOK endres til true
+            T p = denne.verdi;                                                          // lagrer denne sin verdi
+            denne = denne.neste;                                                        // går videre til denne sin neste
+
+            return p;                                                                   // returnerer denne sin verdi
         }
 
         @Override
