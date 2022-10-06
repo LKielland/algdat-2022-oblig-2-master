@@ -37,11 +37,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-        throw new UnsupportedOperationException();
+
     }
 
     public DobbeltLenketListe(T[] a) {
-
+        // TODO: Pål gjør noen endringer her straks!
         this();   // nuller alle variabelene
 
         if (a.length==0){
@@ -90,6 +90,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean leggInn(T verdi) {
+        // TODO: Det skal legges inn helt på slutten av listen, boolsk return!
         throw new UnsupportedOperationException();
     }
 
@@ -135,10 +136,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
+        // TODO: Her kommer det en toString metode som bruker stringBuilder()
         throw new UnsupportedOperationException();
     }
 
     public String omvendtString() {
+        // TODO: Denne toString() metoden skal gå motsatt vei. HUSK! antall-1 i for løkken!
         throw new UnsupportedOperationException();
     }
 
