@@ -4,9 +4,7 @@ package no.oslomet.cs.algdat.Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -208,49 +206,39 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+    public Iterator<T> iterator() {                                                    // klassisk iterator
+        return new DobbeltLenketListeIterator();
     }
 
-    public Iterator<T> iterator(int indeks) {
-        throw new UnsupportedOperationException();
+    public Iterator<T> iterator(int indeks) {                                          // iterator med indeks input
+        indeksKontroll(indeks, false);
+        return new DobbeltLenketListeIterator(indeks);
     }
 
-    public Node<T> finnNode(int indeks){
-        Node<T> denne = hode;
-
-        if (indeks < antall/2) {
-            int teller = 0;
-            while(indeks > teller) {
-                denne = denne.neste;
-                teller++;
-            }
-            return denne;
-        } else {
-            denne = hale;
-            int teller = antall;
-            while(indeks < teller) {
-                denne = denne.forrige;
-                teller--;
-            }
-            return denne;
-        }
-    }
-
-
-    private class DobbeltLenketListeIterator implements Iterator<T> {
+    private class DobbeltLenketListeIterator implements Iterator<T> {                   // intern klasse dobbeltLenkeListeIterator som implementerer interfacet Iterator
         private Node<T> denne;
         private boolean fjernOK;
         private int iteratorendringer;
 
         private DobbeltLenketListeIterator() {
-            denne = hode;     // p starter på den første i listen
-            fjernOK = false;  // blir sann når next() kalles
-            iteratorendringer = endringer;  // teller endringer
+            denne = hode;                                                               // p starter på den første i listen
+            fjernOK = false;                                                            // blir sann når next() kalles
+            iteratorendringer = endringer;                                              // teller endringer
         }
 
         private DobbeltLenketListeIterator(int indeks) {
-            throw new UnsupportedOperationException();
+            if (indeks == 0) {                                                          // hvis indeks = 0
+                denne = hode;                                                           // er denne lik hode
+            }
+            else {                                                                      // ellers så...
+                Node<T> p = hode;                                                       // lager en p variabel for å traversere lenketLista
+                for(int i = 1; i < indeks; i++) {                                       // for løkke løper gjennom fra hodet
+                    p = p.neste;                                                        // p er lik p sin neste node opp til indeks - 1, da skal denne være lik p.neste
+                }
+                denne = p.neste;                                                        // gjør denne om til p.neste, som er indeks
+                fjernOK = false;                                                        // blir sann når next() kalles
+                iteratorendringer = endringer;                                          // teller endringer
+            }
         }
 
         @Override
@@ -260,7 +248,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next() {
-            throw new UnsupportedOperationException();
+            if(iteratorendringer != endringer) {                                        // hvis iteratorendringer er ulik endringer
+                throw new ConcurrentModificationException("Listen er endret!");         // kaster unntak
+            }
+            if(!hasNext()) {                                                            // hvis hasNext er false
+                throw new NoSuchElementException("Ingen verdier!");                     // kaster unntak
+            }
+            fjernOK = true;                                                             // fjernOK endres til true
+            T p = denne.verdi;                                                          // lagrer denne sin verdi
+            denne = denne.neste;                                                        // går videre til denne sin neste
+
+            return p;                                                                   // returnerer denne sin verdi
         }
 
         @Override
