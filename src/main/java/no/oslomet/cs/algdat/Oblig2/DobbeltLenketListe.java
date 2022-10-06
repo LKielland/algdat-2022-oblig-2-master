@@ -103,6 +103,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
+        // TODO: Her kommer det straks kode, sliter fortsatt litt med p.neste, og p.forrige og q.neste og q.forrige
         throw new UnsupportedOperationException();
     }
 
