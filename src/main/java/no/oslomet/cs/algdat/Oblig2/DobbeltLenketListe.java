@@ -41,7 +41,32 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public DobbeltLenketListe(T[] a) {
-        throw new UnsupportedOperationException();
+
+        this();   // nuller alle variabelene
+
+        if (a.length==0){
+            // kastes en NullPointerException med teksten "Tabellen a er
+            //null!" (bruk f.eks. en requireNonNull-metode fra klassen Objects).
+        }
+        int i=0;
+        for (; i< a.length && a[i]==null; i++);
+        if (i<a.length){
+            Node<T> n= hode= new Node<>(a[i]);
+            hode.forrige=null;
+            antall=1;
+
+            for (i++;i<a.length;i++){
+                if (a[i]!=null){
+                    n.neste=new Node<>(a[i]);
+                    n.neste.forrige=n;
+                    n=n.neste;
+
+                    antall++;
+                }
+            }
+            hale= n;
+            hale.neste=null;
+        }
     }
 
     public Liste<T> subliste(int fra, int til) {
@@ -50,12 +75,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        throw new UnsupportedOperationException();
+
+        return antall;
     }
 
     @Override
     public boolean tom() {
-        throw new UnsupportedOperationException();
+
+        if (antall==0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -75,9 +105,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        indeksKontroll(indeks, false);
-
-        return finnNode(indeks);
+        throw new UnsupportedOperationException();
     }
 
     @Override
