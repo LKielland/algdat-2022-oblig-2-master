@@ -930,6 +930,8 @@ class Oblig2Test {
         long maks = Math.max(tid1, tid2);
         long min = Math.min(tid1, tid2);
 
+        System.out.println("Maks er " +maks+ "\nMin er " +min+ "\nMaks kan ikke være tregere enn " + 1.5 * min);
+
         if (maks > 1.5 * min) {
             System.out.println("Oppgave 6zg: Ineffektiv kode! Har du kodet den ene fjern-metoden");
             System.out.println("ved hjelp av den andre? Eller så er en av fjern-metodene dine litt treg.");
