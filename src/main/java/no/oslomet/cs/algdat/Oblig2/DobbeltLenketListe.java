@@ -156,6 +156,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         indeksKontroll(indeks , true);
         Objects.requireNonNull(nyverdi, "Ikke tillatt med null-verider!");
 
+        if(indeks >= antall) {
+            throw new IndexOutOfBoundsException("Indeksen " + indeks + " er for stor for lista");
+        }
+
         Node<T> denne = hode;
         if(indeks < antall/2){
             for(int i = 1; i < indeks; i++) {
