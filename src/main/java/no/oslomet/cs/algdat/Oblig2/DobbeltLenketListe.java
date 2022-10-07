@@ -73,25 +73,25 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Liste<T> subliste(int fra, int til) {
-        fratilKontroll(antall,fra,til);
+        fratilKontroll(antall,fra,til);                 // Kontrollerer rekkevidden
 
-        int start = 1;
-        Node<T> denne = hode;
+        int start = 1;                                  // løpevariabel
+        Node<T> denne = hode;                           // Avatar-node opprettes
 
-        if(fra <= antall/2) {
-            for(int i = 0; i < fra;i++) {
+        if(fra <= antall/2) {                           // Passer på å begynne på et fornuftig sted
+            for(int i = 0; i < fra;i++) {               // Leter frem "start"-noden
                 denne = denne.neste;
             }
-        } else {
+        } else {                                        // Leter frem startnoden (fra halen)
             denne = hale;
             for(int i = antall-1; i > fra;i--) {
                 denne = denne.forrige;
             }
         }
-        DobbeltLenketListe<T> subListe = new DobbeltLenketListe<>();
-        subListe.antall = 0;
+        DobbeltLenketListe<T> subListe = new DobbeltLenketListe<>();    // Oppretter subLista
+        subListe.antall = 0;                                            // Setter antallet
 
-        while(start<= til-fra) {
+        while(start<= til-fra) {                                        // Løper gjennom og tilegner
             subListe.leggInn(denne.verdi);
             denne = denne.neste;
             start++;
@@ -191,7 +191,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 funnet=true;
                 break;
             }
-            node= node.neste;
+            node = node.neste;
             indeks++;
         }
 
@@ -204,21 +204,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        indeksKontroll(indeks , true);
+        indeksKontroll(indeks , true);                                           // Denne skal sjekke om indeks er "innenfor"
         Objects.requireNonNull(nyverdi, "Ikke tillatt med null-verider!");
 
-        if(indeks >= antall) {throw new IndexOutOfBoundsException("Indeksen " + indeks + " er for stor for lista");}
+        if(indeks >= antall) {                                                          // Men det funker ikke helt slik jeg forventer, så denne er også her
+            throw new IndexOutOfBoundsException("Indeksen " + indeks + " er for stor for lista");
+        }
 
-        Node<T> denne = hode;
-        if(indeks < antall/2){
-            for(int i = 0; i < indeks; i++) {
+        Node<T> denne = hode;                                                           // Oppretter avatar-Node
+        if(indeks < antall/2){                                                          // Sørger for at søket begynner i riktig ende av lista
+            for(int i = 0; i < indeks; i++) {                                           // Cruiser gjennom
                 denne = denne.neste;
             }
-            T temp = denne.verdi;
-            denne.verdi = nyverdi;
+            T temp = denne.verdi;                                                       // Verdien som skal oppdateres lagres i temp
+            denne.verdi = nyverdi;                                                      // NyVerdi settes inn
             endringer++;
-            return temp;
-        } else {
+            return temp;                                                                // Temp returneres
+        } else {                                                                        // Her skjer det samme men fra halen og nedover
             denne = hale;
             for(int i = antall -1; i > indeks;i--) {
                 denne = denne.forrige;
@@ -234,18 +236,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public boolean fjern(T verdi) {
         Node<T> node;
 
-        boolean hodet = false;
+        boolean hodet = false;                  // Oppretter to boolske variabler som settes dersom verdi befinner seg i hodet eller halen
         boolean halen = false;
 
-        node = hode;
-        node.forrige = null;
+        node = hode;                            // Avatar-node opprettes
+        node.forrige = null;                    // Vasker opp litt
 
-        boolean funnet=false;
+        boolean funnet = false;                 // Variabel som settes dersom "verdi" blir funnet
 
-        while (node!=null && verdi!=null){
+        while (node!=null && verdi!=null){      // Går gjennom lista å leter etter "verdi"
             if (verdi.equals(node.verdi)){
                 funnet=true;
-                if(node.forrige == null) {
+                if(node.forrige == null) {      // Hodet og halen settes
                     hodet = true;
                 }
                 if (node.neste == null) {
@@ -253,33 +255,32 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 }
                 break;
             }
-            node= node.neste;
+            node = node.neste;
         }
 
         if (funnet) {
-            if(hodet && halen) {
-                node = null;
+            if(hodet && halen) {            // Her følger en rekke if'er som skal sørge for at korrekt serie gjennomføres
+                node = null;                // Dersom verdi er både hodet og halen er det bare å tilintetgjøree
                 antall--;
                 return true;
-            } else if(hodet) {
+            } else if(hodet) {              // Dersom verdi er hodet må hodet flyttes til .neste
                 hode = node.neste;
                 hode.forrige = null;
                 antall--;
                 return true;
-
-            } else if (halen) {
+            } else if (halen) {             // Dersom verdi er halen må halen flyttes til .forrige
                 hale = node.forrige;
                 hale.neste = null;
                 antall--;
                 return true;
-            } else {
+            } else {                                // Hvis verdi hverken er i hodet eller halen må pekerne rundt verdi endres
                 node.forrige.neste = node.neste;
                 node.neste.forrige = node.forrige;
                 antall--;
                 return true;
             }
         }
-        return false;
+        return false;                               // Dette skjer bare dersom verdien ikke ble funnet
     }
 
     @Override
