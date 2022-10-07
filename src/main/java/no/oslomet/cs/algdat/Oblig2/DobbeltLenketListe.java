@@ -161,7 +161,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         int indeks=-1;
         boolean funnet=false;
 
-        while (node!=null){
+        while (node!=null && verdi!=null){
             if (verdi.equals(node.verdi)){
                 indeks++;
                 funnet=true;
