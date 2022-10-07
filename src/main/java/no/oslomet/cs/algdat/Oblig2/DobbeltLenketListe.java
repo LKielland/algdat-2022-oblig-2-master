@@ -247,7 +247,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (indeks == 0) {
             temp = hode.verdi;                 // Lagrer verdien som skal fjernes
             hode = hode.neste;                 // Hode flyttes
-            hode.forrige = null;                // forrige fjernes
 
             if (antall == 1) {
                 hale = hode;
@@ -260,13 +259,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
             if (gjeldende == hale) {
                 hale = forran;
-                //hale.forrige = forran.forrige;
+                hale.forrige = forran.forrige;
             } else {
                 Node<T> etter = gjeldende.neste;                // "etter" er noden som kommer etter den som skal fjernes
                 etter.forrige = forran;
             }
-            forran.neste = gjeldende.neste;                 // "hopper over" q
-            forran.forrige = gjeldende.forrige;
+            forran.neste = gjeldende.neste;                 // "hopper over"
+            //forran.forrige = forran;
         }
         antall--;                            // reduserer antallet
         return temp;                         // returner fjernet verdi
