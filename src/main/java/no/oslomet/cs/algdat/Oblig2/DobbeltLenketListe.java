@@ -180,6 +180,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public int indeksTil(T verdi) {
         Node<T> node;
+
         node=hode;
         int indeks=-1;
         boolean funnet=false;
@@ -231,12 +232,42 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        if(!inneholder(verdi)) return false;
-        else {
-            int indeks = indeksTil(verdi);
-            fjern(indeks);
+
+        Node<T> node;
+
+        node=hode;
+        boolean funnet=false;
+
+        while (node!=null && verdi!=null){
+            if (verdi.equals(node.verdi)){
+                funnet=true;
+                break;
+            }
+            node = node.neste;
         }
-        return true;
+
+        if (funnet) {
+            if(node.forrige != null && node.neste != null) {
+                Node<T> forrige = node.forrige;
+                Node<T> neste = node.neste;
+                forrige.neste = neste;
+                neste.forrige = forrige;
+                antall--;
+                return true;
+            } else if(node.forrige == null) {
+                Node<T> neste = node.neste;
+                neste.forrige = null;
+                antall--;
+                return true;
+            } else {
+                Node<T> forrige = node.forrige;
+                forrige.neste = null;
+                antall--;
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
     @Override
