@@ -162,20 +162,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         Node<T> denne = hode;
         if(indeks < antall/2){
-            for(int i = 1; i < indeks; i++) {
+            for(int i = 0; i < indeks; i++) {
                 denne = denne.neste;
             }
-            T temp = denne.neste.verdi;
-            denne.neste.verdi = nyverdi;
+            T temp = denne.verdi;
+            denne.verdi = nyverdi;
             endringer++;
             return temp;
         } else {
             denne = hale;
-            for(int i = antall; i > indeks;i--) {
+            for(int i = antall -1; i > indeks;i--) {
                 denne = denne.forrige;
             }
-            T temp = denne.forrige.verdi;
-            denne.forrige.verdi = nyverdi;
+            T temp = denne.verdi;
+            denne.verdi = nyverdi;
             endringer++;
             return temp;
         }
