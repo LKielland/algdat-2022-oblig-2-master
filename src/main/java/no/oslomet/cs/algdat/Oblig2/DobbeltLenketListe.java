@@ -232,13 +232,54 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        int indeks = indeksTil(verdi);
+        Node<T> node;
 
-        if(indeks != -1) {
-            fjern(indeks);
-            return true;
+        boolean hodet = false;
+        boolean halen = false;
+
+        node = hode;
+        node.forrige = null;
+
+        boolean funnet=false;
+
+        while (node!=null && verdi!=null){
+            if (verdi.equals(node.verdi)){
+                funnet=true;
+                if(node.forrige == null) {
+                    hodet = true;
+                }
+                if (node.neste == null) {
+                    halen = true;
+                }
+                break;
+            }
+            node= node.neste;
         }
-      return false;
+
+        if (funnet) {
+            if(hodet && halen) {
+                node = null;
+                antall--;
+                return true;
+            } else if(hodet) {
+                hode = node.neste;
+                hode.forrige = null;
+                antall--;
+                return true;
+
+            } else if (halen) {
+                hale = node.forrige;
+                hale.neste = null;
+                antall--;
+                return true;
+            } else {
+                node.forrige.neste = node.neste;
+                node.neste.forrige = node.forrige;
+                antall--;
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
