@@ -73,7 +73,30 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Liste<T> subliste(int fra, int til) {
-        throw new UnsupportedOperationException();
+        fratilKontroll(antall,fra,til);
+
+        int start = 1;
+        Node<T> denne = hode;
+
+        if(fra <= antall/2) {
+            for(int i = 0; i < fra;i++) {
+                denne = denne.neste;
+            }
+        } else {
+            denne = hale;
+            for(int i = antall-1; i > fra;i--) {
+                denne = denne.forrige;
+            }
+        }
+        DobbeltLenketListe<T> subListe = new DobbeltLenketListe<>();
+        subListe.antall = 0;
+
+        while(start<= til-fra) {
+            subListe.leggInn(denne.verdi);
+            denne = denne.neste;
+            start++;
+        }
+        return subListe;
     }
 
     @Override
@@ -258,15 +281,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
     }
 
-    public static void fratilKontroll(int tablengde, int fra, int til)
+    public static void fratilKontroll(int antall, int fra, int til)
     {
         if (fra < 0)                                  // fra er negativ
             throw new IndexOutOfBoundsException
                     ("fra(" + fra + ") er negativ!");
 
-        if (til > tablengde)                          // til er utenfor tabellen
+        if (til > antall)                          // til er utenfor tabellen
             throw new IndexOutOfBoundsException
-                    ("til(" + til + ") > tablengde(" + tablengde + ")");
+                    ("til(" + til + ") > antall(" + antall + ")");
 
         if (fra > til)                                // fra er større enn til
             throw new IllegalArgumentException
