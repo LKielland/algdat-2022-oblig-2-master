@@ -156,7 +156,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int indeksTil(T verdi) {
-        throw new UnsupportedOperationException();
+        Node<T> node;
+        node=hode;
+        int indeks=-1;
+        boolean funnet=false;
+
+        while (node!=null){
+            if (verdi.equals(node.verdi)){
+                indeks++;
+                funnet=true;
+                break;
+            }
+            node= node.neste;
+            indeks++;
+        }
+
+        if (funnet) {
+            return indeks;
+        } else {
+            return -1;
+        }
     }
 
     @Override
