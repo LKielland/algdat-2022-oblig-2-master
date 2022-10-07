@@ -231,12 +231,45 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException();
+        if(!inneholder(verdi)) return false;
+        else {
+            int indeks = indeksTil(verdi);
+            fjern(indeks);
+        }
+        return true;
     }
 
     @Override
     public T fjern(int indeks) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks, false);  // Sjekker om indeks er gyldig
+        T temp;
+
+        if (indeks == 0) {
+            temp = hode.verdi;                 // Lagrer verdien som skal fjernes
+            hode = hode.neste;                 // Hode flyttes
+            hode.forrige = null;                // forrige fjernes
+
+            if (antall == 1) {
+                hale = hode;
+            }
+        } else {
+            Node<T> forran = finnNode(indeks - 1);     // "forran" er noden foran den som skal fjernes
+            Node<T> gjeldende = forran.neste;                // "gjeldende" skal fjernes
+
+            temp = gjeldende.verdi;                    // tar vare på verdien som skal fjernes
+
+            if (gjeldende == hale) {
+                hale = forran;
+                //hale.forrige = forran.forrige;
+            } else {
+                Node<T> etter = gjeldende.neste;                // "etter" er noden som kommer etter den som skal fjernes
+                etter.forrige = forran;
+            }
+            forran.neste = gjeldende.neste;                 // "hopper over" q
+            forran.forrige = gjeldende.forrige;
+        }
+        antall--;                            // reduserer antallet
+        return temp;                         // returner fjernet verdi
     }
 
     @Override
