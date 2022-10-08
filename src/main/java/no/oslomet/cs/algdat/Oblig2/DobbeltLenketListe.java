@@ -264,21 +264,25 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             if(hodet && halen) {            // Her følger en rekke if'er som skal sørge for at korrekt serie gjennomføres
                 node = null;                // Dersom verdi er både hodet og halen er det bare å tilintetgjøree
                 antall--;
+                endringer++;
                 return true;
             } else if(hodet) {              // Dersom verdi er hodet må hodet flyttes til .neste
                 hode = node.neste;
                 hode.forrige = null;
                 antall--;
+                endringer++;
                 return true;
             } else if (halen) {             // Dersom verdi er halen må halen flyttes til .forrige
                 hale = node.forrige;
                 hale.neste = null;
                 antall--;
+                endringer++;
                 return true;
             } else {                                // Hvis verdi hverken er i hodet eller halen må pekerne rundt verdi endres
                 node.forrige.neste = node.neste;
                 node.neste.forrige = node.forrige;
                 antall--;
+                endringer++;
                 return true;
             }
         }
@@ -314,6 +318,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             //forran.forrige = forran;
         }
         antall--;                            // reduserer antallet
+        endringer++;
         return temp;                         // returner fjernet verdi
     }
 
