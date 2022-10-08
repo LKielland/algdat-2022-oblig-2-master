@@ -10,17 +10,20 @@ import java.util.*;
 public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static void main(String[] args) {
-        Character[] c = {'A','B','C','D','E','F','G','H','I','J',};
-        DobbeltLenketListe<Character> liste = new DobbeltLenketListe<>(c);
-        System.out.println(liste.subliste(3,8));  // [D, E, F, G, H]
-        System.out.println(liste.subliste(5,5));  // []
-        System.out.println(liste.subliste(8,liste.antall()));  // [I, J]
-        // System.out.println(liste.subliste(0,11));  // skal kaste unntak
+
+        DobbeltLenketListe<String> liste =
+                new DobbeltLenketListe<>(new String[]
+                        {"Birger","Lars","Anders","Bodil","Kari","Per","Berit"});
+
+        liste.fjernHvis(navn -> navn.charAt(0) == 'B'); // fjerner navn som starter med B
+
+        System.out.println(liste + " " + liste.omvendtString());
+
     }
     /**
      * Node class
      *
-     * @param <T>
+     * @param <T> m  nmbbnn nbghb
      */
     private static final class Node<T> {
         private T verdi;                   // nodens verdi
@@ -465,7 +468,25 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException();
+            if(endringer != iteratorendringer) {
+                throw new ConcurrentModificationException("Endringer: '" +endringer+ "', og iteratorendringer: '" +iteratorendringer+ "', matcher ikke.");
+            }
+
+            if(antall == 1) {
+                hode = hale = null;
+            } else if(denne == null) {
+                hale = hale.forrige;
+                hale.neste = null;
+            } else if(denne.forrige == hode) {
+                hode = denne;
+                hode.forrige = null;
+            } else {
+                denne.forrige = denne.forrige.forrige;
+                denne.forrige.neste = denne;
+            }
+            antall--;
+            endringer++;
+            iteratorendringer++;
         }
 
     } // class DobbeltLenketListeIterator
