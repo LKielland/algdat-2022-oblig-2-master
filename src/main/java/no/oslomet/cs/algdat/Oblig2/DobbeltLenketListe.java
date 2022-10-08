@@ -16,7 +16,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                         {"Birger","Lars","Anders","Bodil","Kari","Per","Berit"});
 
         liste.fjernHvis(navn -> navn.charAt(0) == 'B'); // fjerner navn som starter med B
-
         System.out.println(liste + " " + liste.omvendtString());
 
     }
@@ -468,9 +467,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public void remove() {
-            if(endringer != iteratorendringer) {
-                throw new ConcurrentModificationException("Endringer: '" +endringer+ "', og iteratorendringer: '" +iteratorendringer+ "', matcher ikke.");
-            }
+            if(!fjernOK) {throw new IllegalStateException("Du kan ikke fjerne denne Noden. Kanskje den ikke eksisterer..?");}
+            if(endringer != iteratorendringer) {throw new ConcurrentModificationException("Endringer: '" +endringer+ "', og iteratorendringer: '" +iteratorendringer+ "', matcher ikke.");}
+            if(antall == 0) { throw new IllegalStateException("Man kan ikke fjerne en node i en tom liste. Antall: '" +antall+ "'.");}
+
+            fjernOK = false;
 
             if(antall == 1) {
                 hode = hale = null;
