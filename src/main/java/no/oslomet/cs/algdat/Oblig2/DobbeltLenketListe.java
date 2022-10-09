@@ -103,12 +103,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        return antall;
+        return antall;                         // returnerer antall noder i listen.
     }
 
     @Override
     public boolean tom() {
-        return antall == 0;
+        return antall == 0;                   // dersom antall er lik 0. så listen er tom.
     }
 
     @Override
@@ -167,8 +167,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean inneholder(T verdi) {
-        return indeksTil(verdi) != -1;
-    }
+        return indeksTil(verdi) != -1;                  // kaller indeksTil() metoden og returnerer true
+    }                                                   // dersom verdien finnes i listen/metoden ikke returnerer -1
 
     @Override
     public T hent(int indeks) {
