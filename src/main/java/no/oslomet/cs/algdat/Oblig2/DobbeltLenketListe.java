@@ -108,10 +108,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean tom() {
-        if (antall==0) {
-            return true;
-        }
-        return false;
+        return antall == 0;
     }
 
     @Override
@@ -181,26 +178,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int indeksTil(T verdi) {
-        Node<T> node;
-
-        node=hode;
-        int indeks=-1;
-        boolean funnet=false;
-
-        while (node!=null && verdi!=null){
-            if (verdi.equals(node.verdi)){
-                indeks++;
-                funnet=true;
-                break;
+        Node<T> node=hode;                              // lagrer hode i node og itererer ved å bruke node.neste gjennom listen
+        int indeks=-1;                                  // initieres returnvariabel(indeks) til -1
+        boolean funnet=false;                           // initieres variabel funnet til false
+        while (node!=null && verdi!=null){              // sålenge node ikke null og input verdi ikke null lopper gjennom listen
+            if (verdi.equals(node.verdi)){              // hvis verdi er lik node.verdi. Da har vi funnet verdi i listen.
+                indeks++;                               // oppdaterer indeks variabelen
+                funnet=true;                            // oppdaterer variabelen funnet til true
+                break;                                  // verdi er funnet i listen- avslutter
             }
-            node = node.neste;
-            indeks++;
+            node = node.neste;                          // sålenge verdi ikke funnet i listen og node ikke null, itererer gjennom listen med node.neste.
+            indeks++;                                   // indeks med økes for hver iterasjon
         }
-
-        if (funnet) {
+        if (funnet) {                                   // hvis verdi er funnet i listen, returnerer vi indeks
             return indeks;
         } else {
-            return -1;
+            return -1;                                  // hvis verdi ikke funnet i listen, returnerer vi -1
         }
     }
 
@@ -324,23 +317,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void nullstill() {
-
         // måte 1
         Node<T> node1=hode, node2;
-
         while (node1!=null){
             node2=node1.neste;
-
             node1.neste=null;
             node1.forrige=null;
-
             node1.verdi=null;
             node1= node2;
-
             endringer++;
         }
         hode=hale=null;
         antall=0;
+
+        /* måte 2
+        for (int i=antall-1; i>=0;i--){
+               fjern(i);
+               } */
     }
 
     @Override
