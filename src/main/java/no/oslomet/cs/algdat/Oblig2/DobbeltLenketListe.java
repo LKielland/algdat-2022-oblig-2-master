@@ -496,19 +496,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     } // class DobbeltLenketListeIterator
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        int teller = 1;
-        for(int i = 1; i < liste.antall(); i++) {
-            T v1 = liste.hent(i);
-            int j = i - 1;
-            for(; j >= 0 && c.compare(v1,liste.hent(j)) < 0; j--) {
-                T v2 = liste.hent(j);
-                System.out.println("indre for kjører: " + teller + " gang");
-                liste.oppdater(j+1,v2);
+        // bruker en klassisk insertion sort algoritme                          Sammenlikner verdier på plassen etter med plassen før og bytter hvis plassen før er større
+        for(int i = 1; i < liste.antall(); i++) {                               // ytre for løkke, i starter på 1, opp til liste.antall()
+            T v1 = liste.hent(i);                                               // lagrer verdien på plass i, i variabelen v1
+            int j = i - 1;                                                      // initierer j som i - 1, (i = 1, j = 0), (i = 2, j = 1)
+            for(; j >= 0 && c.compare(v1,liste.hent(j)) < 0; j--) {             // indre for-løkke kjører bare hvis j er større enn eller lik 0, og hvis v1 er mindre enn verdien på plass j
+                T v2 = liste.hent(j);                                           // lagrer verdien på plass j, i variabelen v2
+                liste.oppdater(j+1,v2);                                  // oppdaterer plass j+1 til få verdien v2 (j+1 er ofte i, men ikke alltid)
             }
-            liste.oppdater(j+1, v1);
-        }
-    }
-
+            liste.oppdater(j+1, v1);                                     // oppdaterer plass j+1 til å få verdien v1 (Husk at her har vi gjort j-- i den indre for-løkka)
+        }                                                                      // legg merke til c.compare(v1,liste.hent(j)) < 0 i den indre for løkka:
+    }                                                                          // den må hente verdien der inne i sammenlikningen og ikke utenfor, foran for løkka
+                                                                               // da .hent(j) endrer seg fra iterasjon til iterasjon.
 } // class DobbeltLenketListe
 
 
