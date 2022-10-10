@@ -496,7 +496,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     } // class DobbeltLenketListeIterator
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new UnsupportedOperationException();
+        int teller = 1;
+        for(int i = 1; i < liste.antall(); i++) {
+            T v1 = liste.hent(i);
+            int j = i - 1;
+            for(; j >= 0 && c.compare(v1,liste.hent(j)) < 0; j--) {
+                T v2 = liste.hent(j);
+                System.out.println("indre for kjører: " + teller + " gang");
+                liste.oppdater(j+1,v2);
+            }
+            liste.oppdater(j+1, v1);
+        }
     }
 
 } // class DobbeltLenketListe
