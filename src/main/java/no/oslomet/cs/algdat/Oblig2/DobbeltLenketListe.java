@@ -9,19 +9,6 @@ import java.util.*;
 
 public class DobbeltLenketListe<T> implements Liste<T> {
 
-    public static void main(String[] args) {
-
-        DobbeltLenketListe<String> liste =
-                new DobbeltLenketListe<>(new String[]
-                        {"Birger","Lars","Anders","Bodil","Kari","Per","Berit"});
-
-//        liste.fjernHvis(navn -> navn.charAt(0) == 'B'); // fjerner navn som starter med B
-//        System.out.println(liste + " " + liste.omvendtString());
-
-        liste.leggInn(5,"Pål");
-        System.out.println(liste);
-
-    }
     /**
      * Node class
      *
@@ -388,17 +375,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Node<T> finnNode(int indeks){
-        Node<T> denne = hode;
+        Node<T> denne = hode;                           // Oppretter avatar-node
 
-        if (indeks < antall/2) {
+        if (indeks < antall/2) {                        // Sørger for at letingen begynner i en fornuftig ende av lista
             int teller = 0;
-            while(indeks > teller) {
+            while(indeks > teller) {                    // Trasker gjennom lista til korrekt indeks er nådd
                 denne = denne.neste;
                 teller++;
             }
             return denne;
         }  else {
-            denne = hale;
+            denne = hale;                               // Gjør det samme som over men fra halen
             int teller = antall -1;
             while(indeks < teller) {
                 denne = denne.forrige;
@@ -495,10 +482,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
             fjernOK = false;
 
-            if(antall == 1) {
-                hode = hale = null;
-            } else if(denne == null) {
-                hale = hale.forrige;
+            if(antall == 1) {                                           // Etter å ha kjørt gjennom en serie med tester or å avgjøre om
+                hode = hale = null;                                     // remove kan kjøre kommer en liten rekke
+            } else if(denne == null) {                                  // if'er som har som jobb å sørge for at de korrekte
+                hale = hale.forrige;                                    // referansene blir satt
                 hale.neste = null;
             } else if(denne.forrige == hode) {
                 hode = denne;
@@ -507,7 +494,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 denne.forrige = denne.forrige.forrige;
                 denne.forrige.neste = denne;
             }
-            antall--;
+            antall--;                                                   // tilslutt oppdateres variablene
             endringer++;
             iteratorendringer++;
         }

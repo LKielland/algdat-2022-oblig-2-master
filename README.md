@@ -31,6 +31,18 @@ er mer enn null, så skal verdi legges inn bakerst. Da er det hale.neste som bli
 at den nye noden sin forrige peker på halen sin node, at hale sin node peker på den nye noden, og at halen blir satt til å være
 den nye noden. Antall og endringer økes.
 
+I Oppgave 3 a) var en slibrig liten oppgave. Løsningen av finnNod() var grei nok, og fungerte som en fin liten 
+introduksjon/oppfrisker til hvordan en dobbeltlenket liste er satt sammen. Sammen med hent() handlet det stort sett om 
+å sjonglere pekerne på riktig måte også falt brikkene påplass. Oppdater() derimot! Her hadde jeg et salig strev med å få ting
+til å fungere, og endte opp med å kaste inn en ekstra if(indeks >= antall) siden indekskontroll ikke fungerte som forventet.
+Når jeg ser på koden nå forstår jeg ikke hva problemet var, men dette var, av en eller annen merkelig grunn, som å få en sitron
+klemt inn under kraniet.
+
+I oppgave 3 b) ble jeg sittende lenge å prøve meg frem før jeg tok til fornuft og tegnet opp hvordan jeg så for meg at metoden
+ville fungere. Jeg laget en skisse som ble grunnlaget for hvordan jeg forsto flyten i metoden og deretter ble mesteparten av
+tiden brukt på å feilsøke. Det er overraskende hvor mange obskure småfeil som kan oppstå i så små metoder som disse.
+
+
 I oppgave 5 la vi først inn en Objects.requireNonNull da den ikke godtar null-verdier. Deretter bruker vi indeksKontrollmetoden
 til Liste interfacet med leggInn = true, fordi denne metoden får lov til å legge inn nye verdier. Så går metoden gjennom en 
 if/else if statement for å sjekke grenseområdene. Først om antall og indeks = 0, da blir dette den første, og hale  = hode = ny node.
@@ -40,6 +52,12 @@ den nye noden med den nye verdien, og ordner pekerne deretter. Hvis ingen av dis
 gjennom lista. Vi starter med å sjekke om indeks er mindre enn antall/ 2, i så fall traverserer vi fra hodet, finner riktig posisjon
 oppretter ny node og setter pekerne deretter. Hvis ikke, er indeks større enn antall/2, og da traverserer vi fra halen, finner riktig posisjon, 
 oppretter ny node og setter pekerne deretter. Antall og endringer økes.
+
+I oppgave 6 ble en utholdenhetsprøve mer enn noe annet. Det gikk fort å stable grunnmuren påplass. Men det var stadig noe som 
+ikke fungerte. Etter mye prøving og feiling med node.neste = node.forrige.forrige.neste osv. fikk jeg ideen om å opprette 
+booleanverdier for hodet og halen. Dette gjorde noe med selve strukturen i koden som gjorde at det hele var fungerende få minutter
+senere.
+
 
 I oppgave 8 a) la vi først inn enn sjekk av itereatorendringer og endringer. Hvis disse 2 er ulike, så kastes et unntak. 
 Deretter har vi lagt inn en sjekk på hasNext(), hvis denne er false, så kastes et unntak. Hvis unntakene ikke kastes, så 
@@ -54,6 +72,11 @@ at denne = p.neste vil stemme for hale traversering.
 
 I oppgave 8 d) la vi inn en indeksKontroll med leggInn lik false, fordi den skal ikke legge inn nye verdier ,
 og returnerte DobbeltLenkeListeIterator.
+
+I oppgave 9 fikk jeg problemer med nullpointers, og brukte litt tid på å finne ut av det. Det viste seg at jeg brukte if,
+og ikke else if. Jeg ville jo ikke til neste if dersom den forrige var true. Det ville jo vært bare fjas.
+Deretter brukte jeg litt tid på å forstå kriteriene for at det skal være "tillatt å kalle metoden". 
+Her måtte det en kopp kakao til, men så gav oppgaveteksten plutselig mening.
 
 I oppgave 10 bruker vi en klassisk insertion sort algoritme hvor vi sammenlikner verdien på plass i, med verdien på plass
 j = i - 1. Hvis verdien på plass j er større enn verdien på plass i, så bytter vi om verdiene. Dette gjør vi så med å bruke
