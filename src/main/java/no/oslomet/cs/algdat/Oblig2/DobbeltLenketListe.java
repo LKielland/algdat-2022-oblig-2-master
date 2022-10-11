@@ -334,11 +334,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public void nullstill() {
 
-        // måte 1 er mer effektiv enn måte 2. testet metodene ved å bruke randperm() metode. når n er lik 10^3 ga
-        // måte 1: 1 sec while måte 2: 2 sec. når n er lik 10^5 ga måte1: 2 sec while måte2: 4 sec. Det gir også mening
-        //ettersom måte2 må først kalle fjern() metoden og videre funnNode() metoden, og dettte må gjøres for alle noder.
-        // Mens i måte1 fjerner man hode, hode.neste også videre.
-
         // måte 1
         Node<T> node1=hode, node2;            // oppretter node1 og node2. lagrer hode i noede1
         while (node1!=null){                  // sålenge node1 ikke null, utføres følgene
