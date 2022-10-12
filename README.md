@@ -20,7 +20,7 @@ I oppgaven har vi hatt følgende arbeidsfordeling:
 I oppgave 1 kaster vi nullpointerException hvis tabellen a er null.Videre initieres variabel i og teller opp i fra 0 til første verdi
 som ikke er null så lenge a.length er større enn 0. Hvis vi finner verdi ikke lik null og i er mindre enn a.length, setter vi første verdi 
 som ikke er null til p=hode.Da øker vi antall og i. Siden første verdi som ikke er null er funnet, brukes videre for løkke på resten av a 
-så lenge verdien a[i] ikke er null - Lager en node p.neste og setter p.neste.forrige til p og dermed p til p.neste og øker antall.Når vi 
+så lenge verdien av a[i] ikke er null - Lager en node p.neste og setter p.neste.forrige til p og dermed p til p.neste og øker antall.Når vi 
 har gått gjennom alle verdier i tabellen, p er lik hale og ble gjort en endring. I antlall() metoden returnerer vi antall, og i tom()
 metoden returnerer vi true dersom antall er lik 0, ellers false.
 
