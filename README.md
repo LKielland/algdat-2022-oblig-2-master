@@ -116,6 +116,4 @@ j = i - 1. Hvis verdien på plass j er større enn verdien på plass i, så bytt
 to for løkker, en ytre, og en indre. Vi henter ut verdiene med liste sin hent() metode, oppdaterer med liste sin oppdater() metode,
 og sammenlikner verdiene med en Comparator. 
 
-Warnings:
-Vi har en for statement på linje 46, som skal være slik for å telle opp til første verdi som ikke er null.
-Vi 
+
