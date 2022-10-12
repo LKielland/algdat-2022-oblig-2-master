@@ -17,7 +17,14 @@ I oppgaven har vi hatt følgende arbeidsfordeling:
 
 # Oppgavebeskrivelse
 
-I oppgave 1 så gikk vi frem ved å ...
+I oppgave 1 kaster vi nullpointerException hvis tabellen a er null.Videre initieres variabel i og teller opp i fra 0 til første verdi
+som ikke er null så lenge a.length er større enn 0. Hvis vi finner verdi ikke lik null og i er mindre enn a.length, setter vi første verdi 
+som ikke er null til p=hode.Da øker vi antall og i. Siden første verdi som ikke er null er funnet, brukes videre for løkke på resten av a 
+så lenge verdien a[i] ikke er null - Lager en node p.neste og setter p.neste.forrige til p og dermed p til p.neste og øker antall.Når vi 
+har gått gjennom alle verdier i tabellen, p er lik hale og ble gjort en endring. I antlall() metoden returnerer vi antall, og i tom()
+metoden returnerer vi true dersom antall er lik 0, ellers false.
+
+
 
 I oppgave 2 a) lagde vi en toString() metode som tar i bruk StringBuilder. Den sjekker først om antallet er lik 0, 
 i så fall returnerer den bare "[]". Ellers så initierer den en p-variabel til å traversere, legger inn den første verdien,
@@ -43,6 +50,16 @@ ville fungere. Jeg laget en skisse som ble grunnlaget for hvordan jeg forsto fly
 tiden brukt på å feilsøke. Det er overraskende hvor mange obskure småfeil som kan oppstå i så små metoder som disse.
 
 
+
+I oppgave 4 indeksTil() metoden: initieres variabel indeks til -1 og funnet til false. videre lager hode i node og traverserer
+gjennom listen med node.neste sålenge node og verdi ikke er null. For hver gang verdien ikke finnes i listen inkrementerer vi
+indeks med 1. Dersom verdien finnes i listen inkrementerer vi indeks, oppdaterer funnet til true og avslutter. Tilslutt
+returnerer vi indeks dersom funnet er true, og ellers -1.
+
+I oppgave 4 inneholder() metoden: kaller vi indeksTil() metoden. Dersom indeksTil() metoden returnerer -1, returnerer 
+inneholder() metoden false, ellers true.
+
+
 I oppgave 5 la vi først inn en Objects.requireNonNull da den ikke godtar null-verdier. Deretter bruker vi indeksKontrollmetoden
 til Liste interfacet med leggInn = true, fordi denne metoden får lov til å legge inn nye verdier. Så går metoden gjennom en 
 if/else if statement for å sjekke grenseområdene. Først om antall og indeks = 0, da blir dette den første, og hale  = hode = ny node.
@@ -57,6 +74,21 @@ I oppgave 6 ble en utholdenhetsprøve mer enn noe annet. Det gikk fort å stable
 ikke fungerte. Etter mye prøving og feiling med node.neste = node.forrige.forrige.neste osv. fikk jeg ideen om å opprette 
 booleanverdier for hodet og halen. Dette gjorde noe med selve strukturen i koden som gjorde at det hele var fungerende få minutter
 senere.
+
+
+
+I oppgave 7 måte 1: lager vi først hode i en ny node(node1) og deklarerer node2 som brukes til å lagre node1.neste i løkken. 
+Så treverserer vi gjennom listen sålenge node1 er ikke null. Da nuller vi node1.neste, node1.forrige og node1.verdi. Så
+oppdaterer vi node1 til node1.neste/node2. Tilslutt endringer økes med en for hver node vi fjerner, når alle nodene er 
+fjernet oppdaterer vi antall til 0.
+
+I oppgave 7 måte2: Bruker vi for-løkke og kaller fjern() metoden. Starter å kalle fjern() metoden med indeks til hale
+(antall -1) og fortsetter til indeksen til hode(0);
+
+I oppgave 7 skulle velge den metoden som er mest effektiv: måte 1 er mer effektiv enn måte 2. testet metodene ved å bruke 
+randperm() metode. når n er lik 10^3 ga måte 1: 1 sec while måte 2: 2 sec. når n er lik 10^5 ga måte1: 2 sec while måte2:
+4 sec. Det gir også mening ettersom måte2 må først kalle fjern() metoden og videre funnNode() metoden, og dettte må gjøres
+for alle noder. Mens i måte1 fjerner man hode, hode.neste også videre.
 
 
 I oppgave 8 a) la vi først inn enn sjekk av itereatorendringer og endringer. Hvis disse 2 er ulike, så kastes et unntak. 
