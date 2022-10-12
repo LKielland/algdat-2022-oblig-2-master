@@ -25,7 +25,6 @@ har gått gjennom alle verdier i tabellen, p er lik hale og ble gjort en endring
 metoden returnerer vi true dersom antall er lik 0, ellers false.
 
 
-
 I oppgave 2 a) lagde vi en toString() metode som tar i bruk StringBuilder. Den sjekker først om antallet er lik 0, 
 i så fall returnerer den bare "[]". Ellers så initierer den en p-variabel til å traversere, legger inn den første verdien,
 og henter ut resten gjennom en for-løkka. omvendtString fungerer på akkurat samme måte, bare at den henter ut 
@@ -38,6 +37,7 @@ er mer enn null, så skal verdi legges inn bakerst. Da er det hale.neste som bli
 at den nye noden sin forrige peker på halen sin node, at hale sin node peker på den nye noden, og at halen blir satt til å være
 den nye noden. Antall og endringer økes.
 
+
 I Oppgave 3 a) var en slibrig liten oppgave. Løsningen av finnNod() var grei nok, og fungerte som en fin liten 
 introduksjon/oppfrisker til hvordan en dobbeltlenket liste er satt sammen. Sammen med hent() handlet det stort sett om 
 å sjonglere pekerne på riktig måte også falt brikkene påplass. Oppdater() derimot! Her hadde jeg et salig strev med å få ting
@@ -48,7 +48,6 @@ klemt inn under kraniet.
 I oppgave 3 b) ble jeg sittende lenge å prøve meg frem før jeg tok til fornuft og tegnet opp hvordan jeg så for meg at metoden
 ville fungere. Jeg laget en skisse som ble grunnlaget for hvordan jeg forsto flyten i metoden og deretter ble mesteparten av
 tiden brukt på å feilsøke. Det er overraskende hvor mange obskure småfeil som kan oppstå i så små metoder som disse.
-
 
 
 I oppgave 4 indeksTil() metoden: initieres variabel indeks til -1 og funnet til false. videre lager hode i node og traverserer
@@ -70,11 +69,11 @@ gjennom lista. Vi starter med å sjekke om indeks er mindre enn antall/ 2, i så
 oppretter ny node og setter pekerne deretter. Hvis ikke, er indeks større enn antall/2, og da traverserer vi fra halen, finner riktig posisjon, 
 oppretter ny node og setter pekerne deretter. Antall og endringer økes.
 
+
 I oppgave 6 ble en utholdenhetsprøve mer enn noe annet. Det gikk fort å stable grunnmuren påplass. Men det var stadig noe som 
 ikke fungerte. Etter mye prøving og feiling med node.neste = node.forrige.forrige.neste osv. fikk jeg ideen om å opprette 
 booleanverdier for hodet og halen. Dette gjorde noe med selve strukturen i koden som gjorde at det hele var fungerende få minutter
 senere.
-
 
 
 I oppgave 7 måte 1: lager vi først hode i en ny node(node1) og deklarerer node2 som brukes til å lagre node1.neste i løkken. 
@@ -85,7 +84,7 @@ fjernet oppdaterer vi antall til 0.
 I oppgave 7 måte2: Bruker vi for-løkke og kaller fjern() metoden. Starter å kalle fjern() metoden med indeks til hale
 (antall -1) og fortsetter til indeksen til hode(0);
 
-I oppgave 7 skulle velge den metoden som er mest effektiv: måte 1 er mer effektiv enn måte 2. testet metodene ved å bruke 
+I oppgave 7 skulle vi velge den metoden som er mest effektiv: måte 1 er mer effektiv enn måte 2. testet metodene ved å bruke 
 randperm() metode. når n er lik 10^3 ga måte 1: 1 sec while måte 2: 2 sec. når n er lik 10^5 ga måte1: 2 sec while måte2:
 4 sec. Det gir også mening ettersom måte2 må først kalle fjern() metoden og videre funnNode() metoden, og dettte må gjøres
 for alle noder. Mens i måte1 fjerner man hode, hode.neste også videre.
@@ -105,12 +104,18 @@ at denne = p.neste vil stemme for hale traversering.
 I oppgave 8 d) la vi inn en indeksKontroll med leggInn lik false, fordi den skal ikke legge inn nye verdier ,
 og returnerte DobbeltLenkeListeIterator.
 
+
 I oppgave 9 fikk jeg problemer med nullpointers, og brukte litt tid på å finne ut av det. Det viste seg at jeg brukte if,
 og ikke else if. Jeg ville jo ikke til neste if dersom den forrige var true. Det ville jo vært bare fjas.
 Deretter brukte jeg litt tid på å forstå kriteriene for at det skal være "tillatt å kalle metoden". 
 Her måtte det en kopp kakao til, men så gav oppgaveteksten plutselig mening.
 
+
 I oppgave 10 bruker vi en klassisk insertion sort algoritme hvor vi sammenlikner verdien på plass i, med verdien på plass
 j = i - 1. Hvis verdien på plass j er større enn verdien på plass i, så bytter vi om verdiene. Dette gjør vi så med å bruke
 to for løkker, en ytre, og en indre. Vi henter ut verdiene med liste sin hent() metode, oppdaterer med liste sin oppdater() metode,
 og sammenlikner verdiene med en Comparator. 
+
+Warnings:
+Vi har en for statement på linje 46, som skal være slik for å telle opp til første verdi som ikke er null.
+Vi 

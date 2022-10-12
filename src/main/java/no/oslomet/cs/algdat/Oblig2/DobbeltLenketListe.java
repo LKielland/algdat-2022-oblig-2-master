@@ -40,12 +40,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public DobbeltLenketListe(T[] a) {
-        Objects.requireNonNull(a, "Tabellen a er null!");               // godtar ikke a = null; a = {} er greit.
+        Objects.requireNonNull(a, "Tabellen a er null!");              // godtar ikke a = null; a = {} er greit.
         if (a.length > 0) {                                                     // så lenge a.length er større enn 0
             int i = 0;                                                          // initieres i
             for (; i < a.length && a[i] == null; i++);                          // teller opp i fra 0 til første verdi som ikke er null
             if (i < a.length) {                                                 // så lenge i er mindre enn lengden til tabellen
-                Node<T> p = hode = new Node<>(a[i], null, null);    // setter første verdi som ikke er null til hode som første node
+                Node<T> p = hode = new Node<>(a[i], null, null);   // setter første verdi som ikke er null til hode som første node
                 antall++;                                                       // øker antall
                 i++;                                                            // øker i, da første verdi som ikke er null er funnet
                 for (; i < a.length; i++) {                                     // for løkke på resten av a
@@ -65,16 +65,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Liste<T> subliste(int fra, int til) {
-        fratilKontroll(antall,fra,til);                 // Kontrollerer rekkevidden
+        fratilKontroll(antall,fra,til);                                 // Kontrollerer rekkevidden
 
-        int start = 1;                                  // løpevariabel
-        Node<T> denne = hode;                           // Avatar-node opprettes
+        int start = 1;                                                  // løpevariabel
+        Node<T> denne = hode;                                           // Avatar-node opprettes
 
-        if(fra <= antall/2) {                           // Passer på å begynne på et fornuftig sted
-            for(int i = 0; i < fra;i++) {               // Leter frem "start"-noden
+        if(fra <= antall/2) {                                           // Passer på å begynne på et fornuftig sted
+            for(int i = 0; i < fra;i++) {                               // Leter frem "start"-noden
                 denne = denne.neste;
             }
-        } else {                                        // Leter frem startnoden (fra halen)
+        } else {                                                        // Leter frem startnoden (fra halen)
             denne = hale;
             for(int i = antall-1; i > fra;i--) {
                 denne = denne.forrige;
@@ -234,18 +234,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public boolean fjern(T verdi) {
         Node<T> node;
 
-        boolean hodet = false;                  // Oppretter to boolske variabler som settes dersom verdi befinner seg i hodet eller halen
+        boolean hodet = false;                                      // Oppretter to boolske variabler som settes dersom verdi befinner seg i hodet eller halen
         boolean halen = false;
 
-        node = hode;                            // Avatar-node opprettes
-        node.forrige = null;                    // Vasker opp litt
+        node = hode;                                                // Avatar-node opprettes
+        node.forrige = null;                                        // Vasker opp litt
 
-        boolean funnet = false;                 // Variabel som settes dersom "verdi" blir funnet
+        boolean funnet = false;                                     // Variabel som settes dersom "verdi" blir funnet
 
-        while (node!=null && verdi!=null){      // Går gjennom lista å leter etter "verdi"
+        while (node!=null && verdi!=null){                          // Går gjennom lista å leter etter "verdi"
             if (verdi.equals(node.verdi)){
                 funnet=true;
-                if(node.forrige == null) {      // Hodet og halen settes
+                if(node.forrige == null) {                          // Hodet og halen settes
                     hodet = true;
                 }
                 if (node.neste == null) {
@@ -257,24 +257,24 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         if (funnet) {
-            if(hodet && halen) {            // Her følger en rekke if'er som skal sørge for at korrekt serie gjennomføres
-                node = null;                // Dersom verdi er både hodet og halen er det bare å tilintetgjøree
+            if(hodet && halen) {                                    // Her følger en rekke if'er som skal sørge for at korrekt serie gjennomføres
+                node = null;                                        // Dersom verdi er både hodet og halen er det bare å tilintetgjøree
                 antall--;
                 endringer++;
                 return true;
-            } else if(hodet) {              // Dersom verdi er hodet må hodet flyttes til .neste
+            } else if(hodet) {                                      // Dersom verdi er hodet må hodet flyttes til .neste
                 hode = node.neste;
                 hode.forrige = null;
                 antall--;
                 endringer++;
                 return true;
-            } else if (halen) {             // Dersom verdi er halen må halen flyttes til .forrige
+            } else if (halen) {                                     // Dersom verdi er halen må halen flyttes til .forrige
                 hale = node.forrige;
                 hale.neste = null;
                 antall--;
                 endringer++;
                 return true;
-            } else {                                // Hvis verdi hverken er i hodet eller halen må pekerne rundt verdi endres
+            } else {                                                // Hvis verdi hverken er i hodet eller halen må pekerne rundt verdi endres
                 node.forrige.neste = node.neste;
                 node.neste.forrige = node.forrige;
                 antall--;
@@ -282,40 +282,40 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 return true;
             }
         }
-        return false;                               // Dette skjer bare dersom verdien ikke ble funnet
+        return false;                                               // Dette skjer bare dersom verdien ikke ble funnet
     }
 
     @Override
     public T fjern(int indeks) {
-        indeksKontroll(indeks, false);  // Sjekker om indeks er gyldig
+        indeksKontroll(indeks, false);                      // Sjekker om indeks er gyldig
         T temp;
 
         if (indeks == 0) {
-            temp = hode.verdi;                 // Lagrer verdien som skal fjernes
-            hode = hode.neste;                 // Hode flyttes
+            temp = hode.verdi;                                      // Lagrer verdien som skal fjernes
+            hode = hode.neste;                                      // Hode flyttes
 
             if (antall == 1) {
                 hale = hode;
             }
         } else {
-            Node<T> forran = finnNode(indeks - 1);     // "forran" er noden foran den som skal fjernes
-            Node<T> gjeldende = forran.neste;                // "gjeldende" skal fjernes
+            Node<T> forran = finnNode(indeks - 1);           // "forran" er noden foran den som skal fjernes
+            Node<T> gjeldende = forran.neste;                       // "gjeldende" skal fjernes
 
-            temp = gjeldende.verdi;                    // tar vare på verdien som skal fjernes
+            temp = gjeldende.verdi;                                 // tar vare på verdien som skal fjernes
 
             if (gjeldende == hale) {
                 hale = forran;
                 hale.forrige = forran.forrige;
             } else {
-                Node<T> etter = gjeldende.neste;                // "etter" er noden som kommer etter den som skal fjernes
+                Node<T> etter = gjeldende.neste;                    // "etter" er noden som kommer etter den som skal fjernes
                 etter.forrige = forran;
             }
-            forran.neste = gjeldende.neste;                 // "hopper over"
+            forran.neste = gjeldende.neste;                         // "hopper over"
             //forran.forrige = forran;
         }
-        antall--;                            // reduserer antallet
+        antall--;                                                   // reduserer antallet
         endringer++;
-        return temp;                         // returner fjernet verdi
+        return temp;                                                // returner fjernet verdi
     }
 
     @Override
@@ -397,15 +397,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static void fratilKontroll(int antall, int fra, int til)
     {
-        if (fra < 0)                                  // fra er negativ
+        if (fra < 0)                                                // fra er negativ
             throw new IndexOutOfBoundsException
                     ("fra(" + fra + ") er negativ!");
 
-        if (til > antall)                          // til er utenfor tabellen
+        if (til > antall)                                           // til er utenfor tabellen
             throw new IndexOutOfBoundsException
                     ("til(" + til + ") > antall(" + antall + ")");
 
-        if (fra > til)                                // fra er større enn til
+        if (fra > til)                                              // fra er større enn til
             throw new IllegalArgumentException
                     ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
     }
@@ -482,10 +482,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
             fjernOK = false;
 
-            if(antall == 1) {                                           // Etter å ha kjørt gjennom en serie med tester or å avgjøre om
-                hode = hale = null;                                     // remove kan kjøre kommer en liten rekke
-            } else if(denne == null) {                                  // if'er som har som jobb å sørge for at de korrekte
-                hale = hale.forrige;                                    // referansene blir satt
+            if(antall == 1) {                                                           // Etter å ha kjørt gjennom en serie med tester or å avgjøre om
+                hode = hale = null;                                                     // remove kan kjøre kommer en liten rekke
+            } else if(denne == null) {                                                  // if'er som har som jobb å sørge for at de korrekte
+                hale = hale.forrige;                                                    // referansene blir satt
                 hale.neste = null;
             } else if(denne.forrige == hode) {
                 hode = denne;
@@ -494,7 +494,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 denne.forrige = denne.forrige.forrige;
                 denne.forrige.neste = denne;
             }
-            antall--;                                                   // tilslutt oppdateres variablene
+            antall--;                                                                   // tilslutt oppdateres variablene
             endringer++;
             iteratorendringer++;
         }
